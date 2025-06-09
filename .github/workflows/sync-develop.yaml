@@ -24,7 +24,6 @@ jobs:
           git config --global user.email "github-actions@github.com"
 
       - name: Create Pull Request
-        if: steps.check_changes.outputs.changes_exist == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
