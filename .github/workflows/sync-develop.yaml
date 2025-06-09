@@ -28,7 +28,7 @@ jobs:
 
       - name: Create Pull Request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           # Get the latest commit message and hash
           COMMIT_HASH=$(git rev-parse HEAD)
