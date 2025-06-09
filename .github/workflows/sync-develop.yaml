@@ -1,0 +1,50 @@
+name: Create PR from main to develop
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-develop:
+    name: Create PR from main to develop
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Setup git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes_exist == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get the latest commit message and hash
+          COMMIT_HASH=$(git rev-parse HEAD)
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          
+          # Create a new branch from main
+          SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
+          git checkout -b $SYNC_BRANCH
+          
+          # Create PR using gh cli
+          gh pr create \
+            --base develop \
+            --head $SYNC_BRANCH \
+            --title "chore: sync develop with main (${COMMIT_HASH:0:7})" \
+            --body "This PR was automatically created to sync changes from main into develop.
+
+            **Changes included:**
+            ${COMMIT_MSG}
+            
+            This PR was triggered by commit: ${COMMIT_HASH}" \
+            --label "automated-sync"
