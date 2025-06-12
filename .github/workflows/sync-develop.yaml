@@ -1,5 +1,5 @@
 
-name: Sync develop with main
+name: Create PR from main into develop
 
 on:
   pull_request:
