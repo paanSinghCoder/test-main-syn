@@ -15,7 +15,7 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
         with:
-          fetch-depth: 4
+          fetch-depth: 0
           
       - name: Setup git
         run: |
@@ -31,26 +31,18 @@ jobs:
           COMMIT_HASH=$(git rev-parse HEAD)
           COMMIT_MSG=$(git log -1 --pretty=%B)
           
-          # Ensure branches are up to date
-          git fetch origin develop
-          git fetch origin main
-          
-          # Compare the actual content state between branches using diff-tree
-          DIFF_COUNT=$(git diff-tree -r --ignore-space-at-eol origin/main origin/develop -- . ':!.github/workflows/sync-develop.yaml' | wc -l)
-          
-          if [ "$DIFF_COUNT" -eq "0" ]; then
+          # Check if there are any differences between main and develop
+          if git diff --quiet main develop; then
             echo "[SKIPPED]No changes to sync - develop is already up to date with main"
             exit 0
           fi
           
-          echo "Found $DIFF_COUNT files with differences between main and develop"
-          
           # Create a new branch from main
           SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
-          git checkout develop && git pull origin develop && git push origin develop
           git checkout main && git pull origin main
           git checkout -b $SYNC_BRANCH
           git push origin $SYNC_BRANCH
+          git checkout develop && git pull origin develop && git push origin develop
           
           # Try to create PR
           gh pr create \
