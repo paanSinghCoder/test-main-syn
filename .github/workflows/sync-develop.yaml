@@ -47,6 +47,7 @@ jobs:
           # Create a new branch from main
           SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
           git checkout -b $SYNC_BRANCH
+          git push origin $SYNC_BRANCH
           
           # Try to create PR
           gh pr create \
