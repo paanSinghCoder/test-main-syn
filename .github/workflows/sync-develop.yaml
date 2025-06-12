@@ -53,4 +53,5 @@ jobs:
             ${COMMIT_MSG}
             
             This PR was triggered by commit: ${COMMIT_HASH}" \
-            --label "automated-sync" || echo "PR creation failed, likely because PR already exists"
+            --label "automated-sync" \
+            --assignee "paanSinghCoder" || echo "PR creation failed, likely because PR already exists"
