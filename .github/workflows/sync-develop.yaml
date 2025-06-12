@@ -36,13 +36,15 @@ jobs:
             echo "[SKIPPED]No changes to sync - develop is already up to date with main"
             exit 0
           fi
+
+          # Fetch the latest main and develop
+          git fetch origin develop
+          git fetch origin main
           
           # Create a new branch from main
           SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
-          git checkout main && git pull origin main
           git checkout -b $SYNC_BRANCH
           git push origin $SYNC_BRANCH
-          git checkout develop && git pull origin develop && git push origin develop
           
           # Try to create PR
           gh pr create \
