@@ -22,10 +22,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-      # - name: Fetch all branches
-      #   run: |
-      #     git fetch origin develop:develop || git branch develop
-
       - name: Create Pull Request if there are changes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,7 +32,7 @@ jobs:
           
           # Check if there are any differences between main and develop
           if git diff --quiet main develop; then
-            echo "No changes to sync - develop is already up to date with main"
+            echo "[SKIPPED]No changes to sync - develop is already up to date with main"
             exit 0
           fi
           
@@ -49,7 +45,7 @@ jobs:
           gh pr create \
             --base develop \
             --head $SYNC_BRANCH \
-            --title "chore: sync develop with main (${COMMIT_HASH:0:7})" \
+            --title "chore: sync main into develop (${COMMIT_HASH:0:7})" \
             --body "This PR was automatically created to sync changes from main into develop.
 
             **Changes included:**
