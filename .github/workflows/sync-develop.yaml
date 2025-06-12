@@ -61,3 +61,6 @@ jobs:
 
             **Changes included:**
             ${COMMIT_MSG}
+
+            This PR was triggered by commit: ${COMMIT_HASH}" \
+            --label "automated-sync"
