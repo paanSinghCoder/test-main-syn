@@ -15,7 +15,7 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 4
           
       - name: Setup git
         run: |
@@ -39,10 +39,10 @@ jobs:
           
           # Create a new branch from main
           SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
+          git checkout develop && git pull origin develop && git push origin develop
           git checkout main && git pull origin main
           git checkout -b $SYNC_BRANCH
           git push origin $SYNC_BRANCH
-          git checkout develop && git pull origin develop && git push origin develop
           
           # Try to create PR
           gh pr create \
