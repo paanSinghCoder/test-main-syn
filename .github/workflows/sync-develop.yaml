@@ -35,11 +35,15 @@ jobs:
           git fetch origin develop
           git fetch origin main
           
-          # Compare the actual content state between branches, excluding the workflow file itself
-          if git diff --quiet --ignore-all-space origin/main:. origin/develop:. -- . ':(exclude).github/workflows/sync-develop.yaml'; then
+          # Compare the actual content state between branches using diff-tree
+          DIFF_COUNT=$(git diff-tree -r --ignore-space-at-eol origin/main origin/develop -- . ':!.github/workflows/sync-develop.yaml' | wc -l)
+          
+          if [ "$DIFF_COUNT" -eq "0" ]; then
             echo "[SKIPPED]No changes to sync - develop is already up to date with main"
             exit 0
           fi
+          
+          echo "Found $DIFF_COUNT files with differences between main and develop"
           
           # Create a new branch from main
           SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
