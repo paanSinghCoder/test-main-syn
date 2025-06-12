@@ -1,17 +1,13 @@
-name: Create PR from main to develop
+name: Sync PR from main into develop
 
 on:
   push:
     branches:
       - main
 
-# permissions:
-#   contents: write
-#   pull-requests: write
-
 jobs:
   sync-develop:
-    name: Create PR from main to develop
+    name: Create PR from main into develop
     runs-on: ubuntu-latest
     timeout-minutes: 5
     
@@ -26,9 +22,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-      - name: Fetch all branches
-        run: |
-          git fetch origin develop:develop || git branch develop
+      # - name: Fetch all branches
+      #   run: |
+      #     git fetch origin develop:develop || git branch develop
 
       - name: Create Pull Request if there are changes
         env:
