@@ -55,7 +55,7 @@ jobs:
           # Try to create PR
           gh pr create \
             --base develop \
-            --head main \
+            --head $SYNC_BRANCH \
             --title "chore: sync main into develop (${COMMIT_HASH:0:7})" \
             --body "This PR was automatically created to sync changes from main into develop.
 
