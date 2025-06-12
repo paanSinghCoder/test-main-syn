@@ -31,8 +31,12 @@ jobs:
           COMMIT_HASH=$(git rev-parse HEAD)
           COMMIT_MSG=$(git log -1 --pretty=%B)
           
-          # Check if there are any differences between main and develop
-          if git diff --quiet main develop; then
+          # Ensure branches are up to date
+          git fetch origin develop
+          git fetch origin main
+          
+          # Compare the actual content state between branches, excluding the workflow file itself
+          if git diff --quiet --ignore-all-space origin/main:. origin/develop:. -- . ':(exclude).github/workflows/sync-develop.yaml'; then
             echo "[SKIPPED]No changes to sync - develop is already up to date with main"
             exit 0
           fi
