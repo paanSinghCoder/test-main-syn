@@ -40,7 +40,6 @@ jobs:
             exit 0
           fi
           
-          # Try to merge main into develop
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
