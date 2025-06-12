@@ -1,6 +1,3 @@
 console.log("Hello Worldssss");
-hey
 
-//testing
-
-//JAi mata di
+console.log("Hello Worldssss 2");
