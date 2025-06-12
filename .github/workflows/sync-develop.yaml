@@ -2,9 +2,7 @@
 name: Create PR from main into develop
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - main
  # Enable "Run Workflow" button to trigger the workflow manually
