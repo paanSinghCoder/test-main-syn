@@ -27,7 +27,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Fetch the latest main and develop
-          git fetch origin develop
           git fetch origin main
 
           # Get the latest commit message and hash
@@ -42,7 +41,6 @@ jobs:
           fi
           
           # Create a new branch from main
-          
           SYNC_BRANCH="sync/main-to-develop-${COMMIT_HASH:0:7}"
           git checkout -b $SYNC_BRANCH
           git push origin $SYNC_BRANCH
