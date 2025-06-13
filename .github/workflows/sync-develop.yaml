@@ -52,6 +52,8 @@ jobs:
             --title "chore: sync main into develop (${COMMIT_HASH:0:7})" \
             --body "This PR is automatically created to sync changes from main into develop.
 
+            **Note:** This PR must be merged using 'Create a merge commit' option only.
+
             **Changes included:**
             ${COMMIT_MSG}
             
