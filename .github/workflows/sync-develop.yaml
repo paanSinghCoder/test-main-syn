@@ -36,7 +36,7 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
 
           # Check if there are any differences between main and develop
-          if git diff --quiet main develop; then
+          if git diff --quiet main origin/develop; then
             echo "[SKIPPED] No changes to sync - develop is already up to date with main"
             exit 0
           fi
