@@ -21,14 +21,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-      - name: Skip if develop is already merged into main
-        run: |
-          git checkout main
-          if git merge-base --is-ancestor develop main; then
-            echo "[SKIPPED] develop is already merged into main. No sync needed."
-            exit 0
-          fi
 
       - name: Create Pull Request if there are changes
         env:
